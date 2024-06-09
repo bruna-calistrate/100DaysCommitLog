@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "100dayscommitlog"
+version = "0.1.0"
+description = "A fun commit logger so you and your friends can track your #100DaysofCode progress together."
+authors = ["Bruna Calistrate <bruna.calistrate@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.3"
+pandas = "^2.2.2"
+ipykernel = "^6.29.4"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
