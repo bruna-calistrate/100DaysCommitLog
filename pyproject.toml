@@ -7,12 +7,70 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-beautifulsoup4 = "^4.12.3"
 pandas = "^2.2.2"
-ipykernel = "^6.29.4"
 requests = "^2.32.3"
+seaborn = "^0.13.2"
+python-dotenv = "^1.0.1"
 
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.12.2"
+isort = "^5.13.2"
+black = "^24.4.2"
+ruff = "^0.4.8"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 80
+
+[tool.ruff]
+
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+line-length = 80
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 80
+extend_skip = ['migrations']
+
+[tool.taskipy.tasks]
+lint = 'ruff . && black --check . --diff'
+format = 'black .  && isort .'
