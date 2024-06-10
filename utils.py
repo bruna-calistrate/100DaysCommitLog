@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 
 import pytz
 
@@ -20,6 +20,8 @@ def get_username(email_obj):
 def str_to_date(date_str: str):
     if date_str is None:
         return None
+    if isinstance(date_str, date):
+        return date_str
 
     dt_obj = datetime.strptime(date_str, "%Y-%m-%d")
     return dt_obj.date()
@@ -28,6 +30,8 @@ def str_to_date(date_str: str):
 def str_to_datetime(datetime_str: str):
     if datetime_str is None:
         return None
+    if isinstance(datetime_str, datetime):
+        return datetime_str
 
     dt_obj = datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M:%SZ")
     return dt_obj
