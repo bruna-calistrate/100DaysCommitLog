@@ -27,5 +27,9 @@ class CollectCommitDataPayload(BaseModel):
     filter_date: str
 
 
+class CollectCommitCounterPayload(BaseModel):
+    users_list: list
+
+
 class CollectCommitDataResponse(BaseModel):
     commits_data: List[CommitData]
