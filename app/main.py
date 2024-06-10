@@ -1,7 +1,14 @@
+from datetime import date, timedelta
+
 from fastapi import APIRouter, FastAPI, status
 
+from app.commits_graph import CommitsGraph
 from app.github_scraper import GithubScraper
-from app.models import CollectCommitDataPayload, CollectCommitDataResponse
+from app.models import (
+    CollectCommitCounterPayload,
+    CollectCommitDataPayload,
+    CollectCommitDataResponse,
+)
 
 
 def get_app_router():
@@ -35,18 +42,32 @@ def create_app() -> FastAPI:
         return commit_data
 
     @app_router.post(
-        "/daily_commit_count/",
+        "/commit_counter/",
         description="Get daily commit count GitHub users.",
         status_code=status.HTTP_200_OK,
-        # response_model=CollectCommitDataResponse,
     )
-    def collect_daily_commits(commit_data_payload: CollectCommitDataPayload):
+    def collect_commits(commit_data_payload: CollectCommitCounterPayload):
+        filter_date = date.today() - timedelta(days=1)
         gs = GithubScraper(
+            users_list=commit_data_payload.users_list,
+            filter_date=filter_date,
+            counter_date=True,
+        )
+        commit_data = gs.count_commits()
+        return commit_data
+
+    @app_router.post(
+        "/plot_commit_graph/",
+        description="Plot commit graph of users.",
+        status_code=status.HTTP_200_OK,
+    )
+    def plot_commit_graph(commit_data_payload: CollectCommitDataPayload):
+        cg = CommitsGraph(
             users_list=commit_data_payload.users_list,
             filter_date=commit_data_payload.filter_date,
         )
-        commit_data = gs.count_daily_commits()
-        return commit_data
+        commit_graph_plot = cg.create_commit_graph()
+        return commit_graph_plot
 
     app.include_router(app_router)
 
