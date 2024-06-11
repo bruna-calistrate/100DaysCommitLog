@@ -20,7 +20,7 @@ class CommitsGraph:
         return df
 
     def create_commit_graph(self):
-        fig, ax_ = plt.subplots(figsize=(5, 5))
+        fig = plt.figure(figsize=(5, 5))
 
         commits_graph_data = self.create_commits_dataframe()
         cmap = sns.color_palette("blend:#9be9a8,#216e39", as_cmap=True)
