@@ -13,12 +13,24 @@ from app.models import (
 
 
 def get_app_router():
+    """
+    Returns an instance of APIRouter for routing within the FastAPI application.
+
+    Returns:
+    APIRouter: An instance of APIRouter for defining routes and handling requests.
+    """
     router = APIRouter()
 
     return router
 
 
 def create_app() -> FastAPI:
+    """
+    Creates and configures a FastAPI instance with defined routes for API endpoints related to collecting and visualizing GitHub commit data.
+
+    Returns:
+        FastAPI: An instance of FastAPI with defined routes for commit data retrieval and visualization.
+    """
     app = FastAPI()
     app_router = get_app_router()
 
@@ -44,7 +56,7 @@ def create_app() -> FastAPI:
 
     @app_router.post(
         "/commit_counter/",
-        description="Get daily commit count GitHub users.",
+        description="Get daily commit count from GitHub users.",
         status_code=status.HTTP_200_OK,
     )
     def collect_commits(commit_data_payload: CollectCommitCounterPayload):
@@ -52,7 +64,7 @@ def create_app() -> FastAPI:
         gs = GithubScraper(
             users_list=commit_data_payload.users_list,
             filter_date=filter_date,
-            counter_date=True,
+            exact_date=True,
         )
         commit_data = gs.count_commits()
         return commit_data
