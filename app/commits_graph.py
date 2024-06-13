@@ -15,8 +15,10 @@ class CommitsGraph:
 
     Methods:
     - create_commits_dataframe(): Creates a pandas DataFrame from the daily commits data.
-    - create_commit_graph(): Creates a heatmap graph of daily commits data using seaborn and matplotlib.
+    - create_commit_graph(): Creates a heatmap graph of daily commits data using seaborn and
+     matplotlib.
     """
+
     def __init__(self, users_list: list, filter_date: str):
         self.users_list = users_list
         self.filter_date = filter_date

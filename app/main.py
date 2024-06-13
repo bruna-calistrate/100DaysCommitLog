@@ -26,10 +26,12 @@ def get_app_router():
 
 def create_app() -> FastAPI:
     """
-    Creates and configures a FastAPI instance with defined routes for API endpoints related to collecting and visualizing GitHub commit data.
+    Creates and configures a FastAPI instance with defined routes for API endpoints related to
+    collecting and visualizing GitHub commit data.
 
     Returns:
-        FastAPI: An instance of FastAPI with defined routes for commit data retrieval and visualization.
+        FastAPI: An instance of FastAPI with defined routes for commit data retrieval and
+        visualization.
     """
     app = FastAPI()
     app_router = get_app_router()

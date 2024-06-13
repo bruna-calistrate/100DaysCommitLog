@@ -15,14 +15,17 @@ class GithubScraper:
     Attributes:
     - users_list (list): A list of GitHub users to scrape data from.
     - filter_date (str): A date string to filter the data by.
-    - exact_date (bool): A flag to determine if filtering should be done based on exact date or after the date.
+    - exact_date (bool): A flag to determine if filtering should be done based on exact date
+      or after the date.
     - github_token (str): GitHub API token for authentication.
 
     Methods:
     - get_repositories_names(user): Retrieves the names of repositories for a given user.
     - get_repository_data(repository_data): Retrieves data for a specific repository.
-    - get_repository_commits(repository_name, user): Retrieves commits data for a specific repository and user.
-    - get_commit_data(commit_data, repository_name, repository_owner): Retrieves data for a specific commit.
+    - get_repository_commits(repository_name, user): Retrieves commits data for a specific
+     repository and user.
+    - get_commit_data(commit_data, repository_name, repository_owner): Retrieves data for
+     a specific commit.
     - collect_users_data(): Collects commits data for all specified users.
     - count_daily_commits(): Counts daily commits for each user.
     - count_commits(): Counts total commits for each user.
@@ -42,7 +45,8 @@ class GithubScraper:
 
     def get_repositories_names(self, user):
         """
-        Retrieves the names of repositories for a given user by making a GET request to the GitHub API.
+        Retrieves the names of repositories for a given user by making a GET request to the
+        GitHub API.
 
         Parameters:
         - user (str): The GitHub user for whom to retrieve repository names.
@@ -75,7 +79,8 @@ class GithubScraper:
         - repository_data (dict): The data of the repository to extract information from.
 
         Returns:
-        - RepositoryData: An instance of RepositoryData class containing repository name and updated date if the conditions are met, otherwise None.
+        - RepositoryData: An instance of RepositoryData class containing repository name and
+         updated date if the conditions are met, otherwise None.
         """
 
         updated_at = dt_to_br_timezone(
@@ -95,7 +100,8 @@ class GithubScraper:
 
     def get_repository_commits(self, repository_name: str, user: str):
         """
-        Retrieves commits data for a specific repository and user by making a GET request to the GitHub API.
+        Retrieves commits data for a specific repository and user by making a GET request to
+        the GitHub API.
 
         Parameters:
         - repository_name (str): The name of the repository to retrieve commits from.
@@ -139,7 +145,8 @@ class GithubScraper:
         - repository_owner (str): The owner of the repository where the commit was made.
 
         Returns:
-        - CommitData: An instance of CommitData class containing commit details if the conditions are met, otherwise None.
+        - CommitData: An instance of CommitData class containing commit details if the
+         conditions are met, otherwise None.
         """
 
         commit = commit_data.get("commit")
@@ -171,11 +178,12 @@ class GithubScraper:
 
     def collect_users_data(self):
         """
-        Collects commits data for all specified users by iterating through each user, retrieving their repositories,
-        and then fetching commits data for each repository.
+        Collects commits data for all specified users by iterating through each user,
+        retrieving their repositories, and then fetching commits data for each repository.
 
         Returns:
-        - CollectCommitDataResponse: An instance of CollectCommitDataResponse class containing all the collected commits data.
+        - CollectCommitDataResponse: An instance of CollectCommitDataResponse class
+         containing all the collected commits data.
         """
         commits_data = []
         for user in self.users_list:
@@ -190,7 +198,8 @@ class GithubScraper:
         Counts the number of daily commits for each user based on the collected commits data.
 
         Returns:
-        - dict: A dictionary where keys are authors and values are dictionaries with commit dates as keys and the count of commits on that date as values.
+        - dict: A dictionary where keys are authors and values are dictionaries with commit
+         dates as keys and the count of commits on that date as values.
         """
 
         users_data = self.collect_users_data()
@@ -204,10 +213,12 @@ class GithubScraper:
 
     def count_commits(self):
         """
-        Counts the total number of commits made by each user based on the collected commits data.
+        Counts the total number of commits made by each user based on the collected commits
+        data.
 
         Returns:
-        - dict: A dictionary where keys are GitHub users and values are the total count of commits made by each user.
+        - dict: A dictionary where keys are GitHub users and values are the total count of
+         commits made by each user.
         """
 
         users_data = self.collect_users_data()
