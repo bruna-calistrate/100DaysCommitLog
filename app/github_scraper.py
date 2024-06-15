@@ -60,8 +60,21 @@ class GithubScraper:
             "Accept": "application/vnd.github+json",
             "Authorization": f"token {self.github_token}",
         }
-        req = requests.get(url, headers=headers)
-        assert req.status_code == 200, f"failed to fetch repos for {user}"
+        repositories_data = []
+        page = 1
+        while True:
+            query_params = {
+                "sort": "updated",
+                "direction": "desc",
+                "page": page
+            }
+            req = requests.get(url, headers=headers, params=query_params)
+            assert req.status_code == 200, f"failed to fetch repos for {user}"
+            data = req.json()
+            if len(data) == 0:
+                break
+            repositories_data.extend(data)
+            page += 1
 
         repositories_data = req.json()
         repositories_names = []
