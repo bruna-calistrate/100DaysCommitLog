@@ -59,11 +59,26 @@ class GithubScraper:
         headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": f"token {self.github_token}",
+            "X-GitHub-Api-Version": "2022-11-28",
         }
-        req = requests.get(url, headers=headers)
-        assert req.status_code == 200, f"failed to fetch repos for {user}"
+        repositories_data = []
+        page = 1
+        while True:
+            query_params = {
+                "sort": "updated",
+                "direction": "desc",
+                "per_page": 100,
+                "page": page,
+            }
+            req = requests.get(url, headers=headers, params=query_params)
+            assert req.status_code == 200, f"failed to fetch repos for {user}"
+            data = req.json()
+            if len(data) == 0:
+                break
+            repositories_data.extend(data)
+            page += 1
+            del data
 
-        repositories_data = req.json()
         repositories_names = []
         for repo in repositories_data:
             data = self.get_repository_data(repository_data=repo)
@@ -115,12 +130,27 @@ class GithubScraper:
         headers = {
             "Accept": "application/vnd.github+json",
             "Authorization": f"token {self.github_token}",
+            "X-GitHub-Api-Version": "2022-11-28",
         }
-        req = requests.get(url, headers=headers)
-        assert (
-            req.status_code == 200
-        ), f"failed to fetch commits for {repository_name}"
-        commits_data = req.json()
+        commits_data = []
+        page = 1
+        while True:
+            query_params = {
+                "sort": "updated",
+                "direction": "desc",
+                "per_page": 100,
+                "page": page,
+            }
+            req = requests.get(url, headers=headers, params=query_params)
+            assert (
+                req.status_code == 200
+            ), f"failed to fetch commits for {repository_name}"
+            data = req.json()
+            if len(data) == 0:
+                break
+            commits_data.extend(data)
+            page += 1
+            del data
 
         commits = []
         for c in commits_data:
